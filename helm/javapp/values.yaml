@@ -1,0 +1,9 @@
+replicaCount: 2
+
+image:
+ repository: javapp
+ tag: v1
+
+service:
+ type: ClusterIP
+ port: 8080
