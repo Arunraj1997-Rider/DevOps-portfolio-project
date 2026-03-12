@@ -1,0 +1,9 @@
+{
+ "title": "Java App Metrics",
+ "panels": [
+   {
+     "type": "graph",
+     "title": "CPU Usage"
+   }
+ ]
+}
