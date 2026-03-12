@@ -1,0 +1,95 @@
+@Library('my-shared-library') _
+
+pipeline {
+
+ agent any
+
+ environment {
+   IMAGE_NAME="javapp"
+   IMAGE_TAG="v1"
+   DOCKER_USER="devopsarun97"
+ }
+
+ stages {
+
+ stage('Checkout') {
+
+ steps {
+
+ git branch: 'main',
+ url: 'https://github.com/YOUR_USERNAME/devops-java-microservice.git'
+
+ }
+
+ }
+
+ stage('Build') {
+
+ steps {
+
+ sh 'mvn clean package'
+
+ }
+
+ }
+
+ stage('SonarQube Scan') {
+
+ steps {
+
+ sh 'mvn sonar:sonar'
+
+ }
+
+ }
+
+ stage('Docker Build') {
+
+ steps {
+
+ sh 'docker build -t $DOCKER_USER/$IMAGE_NAME:$IMAGE_TAG .'
+
+ }
+
+ }
+
+ stage('Security Scan') {
+
+ steps {
+
+ sh 'trivy image $DOCKER_USER/$IMAGE_NAME:$IMAGE_TAG'
+
+ }
+
+ }
+
+ stage('Push Image') {
+
+ steps {
+
+ sh '''
+ docker login -u $DOCKER_USER -p $DOCKER_PASS
+ docker push $DOCKER_USER/$IMAGE_NAME:$IMAGE_TAG
+ '''
+
+ }
+
+ }
+
+ stage('Deploy Helm') {
+
+ steps {
+
+ sh '''
+ helm upgrade --install java-app helm/java-app \
+ --set image.repository=$DOCKER_USER/$IMAGE_NAME \
+ --set image.tag=$IMAGE_TAG
+ '''
+
+ }
+
+ }
+
+ }
+
+}
