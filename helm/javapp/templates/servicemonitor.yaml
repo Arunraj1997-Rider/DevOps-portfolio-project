@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+
+metadata:
+ name: java-app-monitor
+
+spec:
+
+ selector:
+
+   matchLabels:
+     app: java-app
+
+ endpoints:
+
+ - port: http
+   interval: 15s
