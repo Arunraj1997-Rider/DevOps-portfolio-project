@@ -28,3 +28,22 @@ devops-java-microservice/
 └── scripts/
     ├── build.sh
     └── deploy.sh
+
+
+ # DevOps Java Microservice Project
+
+CI/CD pipeline using:
+
+- Jenkins
+- Docker
+- Kubernetes
+- Helm
+- Prometheus
+- Grafana
+- SonarQube
+- Trivy
+- JFrog
+
+Pipeline Flow:
+
+GitHub → Jenkins → Maven → SonarQube → Docker → Trivy → Helm → Kubernetes → Prometheus → Grafana
